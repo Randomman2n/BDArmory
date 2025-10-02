@@ -101,7 +101,7 @@ namespace BDArmory.Control
         protected abstract void AutoPilot(FlightCtrlState s);
 
         // A small wrapper to make sure the autopilot does not do anything when it shouldn't
-        private void autoPilot(FlightCtrlState s)
+        protected void autoPilot(FlightCtrlState s)
         {
             debugString.Length = 0;
             if (!vessel || !vessel.transform || vessel.packed || !vessel.mainBody)
@@ -200,7 +200,10 @@ namespace BDArmory.Control
         {
             pilotOn = false;
             if (activeVessel)
+            {
                 activeVessel.OnFlyByWire -= autoPilot;
+                activeVessel.OnPreAutopilotUpdate -= autoPilot;
+            }
             RefreshPartWindow();
 
             if (speedController)
